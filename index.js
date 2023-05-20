@@ -38,7 +38,10 @@ async function run() {
 			.collection('volleyball');
 
 		app.get('/toys', async (req, res) => {
-			const result = await toyCollection.find().toArray();
+			const result = await toyCollection
+				.find()
+				.sort({ price: -1 })
+				.toArray();
 			res.send(result);
 		});
 
@@ -54,6 +57,7 @@ async function run() {
 		app.get('/toys/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
+			console.log(query);
 			const result = await toyCollection.findOne(query);
 			res.send(result);
 		});
@@ -71,9 +75,9 @@ async function run() {
 		});
 
 		app.post('/football', async (req, res) => {
-			const newCricket = req.body;
-			console.log(newCricket);
-			const result = await footballCollection.insertOne(newCricket);
+			const newFootball = req.body;
+			console.log(newFootball);
+			const result = await footballCollection.insertOne(newFootball);
 			res.send(result);
 		});
 
@@ -95,9 +99,33 @@ async function run() {
 		});
 
 		app.post('/volleyball', async (req, res) => {
-			const newCricket = req.body;
-			console.log(newCricket);
-			const result = await volleyballCollection.insertOne(newCricket);
+			const newVolleyball = req.body;
+			console.log(newVolleyball);
+			const result = await volleyballCollection.insertOne(newVolleyball);
+			res.send(result);
+		});
+
+		app.put('/toys/:id', async (req, res) => {
+			const id = req.params.id;
+			const filter = { _id: new ObjectId(id) };
+			console.log(filter);
+			const options = { upsert: true };
+			const updatedToy = req.body;
+
+			// const toy = {
+			// 	$set: {
+			// 		name: updatedToy.name,
+			// 	},
+			// };
+			const result = toyCollection.updateOne(filter, options);
+			res.send(result);
+		});
+
+		app.delete('/toys/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			console.log(query);
+			const result = await toyCollection.deleteOne(query);
 			res.send(result);
 		});
 		// Send a ping to confirm a successful connection
