@@ -57,6 +57,22 @@ async function run() {
 			res.send(result);
 		});
 
+		app.get('/toys/:text', async (req, res) => {
+			console.log(req.params.text);
+			if (
+				req.params.text == 'football' ||
+				req.params.text == 'cricket' ||
+				req.params.text == 'volleyball'
+			) {
+				const result = await toyCollection
+					.find({ category: req.params.text })
+					.toArray();
+				return res.send(result);
+			}
+			const result = await toyCollection.find().toArray();
+			res.send(result);
+		});
+
 		app.get('/toys/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
