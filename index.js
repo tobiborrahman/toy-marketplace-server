@@ -48,6 +48,7 @@ async function run() {
 		});
 
 		app.get('/toys', async (req, res) => {
+			console.log(req.query);
 			let query = {};
 			if (req.query?.email) {
 				query = { email: req.query.email };
@@ -59,14 +60,12 @@ async function run() {
 		app.get('/toys/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
-			console.log(query);
 			const result = await toyCollection.findOne(query);
 			res.send(result);
 		});
 
 		app.post('/toys', async (req, res) => {
 			const newToy = req.body;
-			console.log(newToy);
 			const result = await toyCollection.insertOne(newToy);
 			res.send(result);
 		});
@@ -78,7 +77,6 @@ async function run() {
 
 		app.post('/football', async (req, res) => {
 			const newFootball = req.body;
-			console.log(newFootball);
 			const result = await footballCollection.insertOne(newFootball);
 			res.send(result);
 		});
@@ -90,7 +88,6 @@ async function run() {
 
 		app.post('/cricket', async (req, res) => {
 			const newCricket = req.body;
-			console.log(newCricket);
 			const result = await cricketCollection.insertOne(newCricket);
 			res.send(result);
 		});
@@ -102,7 +99,6 @@ async function run() {
 
 		app.post('/volleyball', async (req, res) => {
 			const newVolleyball = req.body;
-			console.log(newVolleyball);
 			const result = await volleyballCollection.insertOne(newVolleyball);
 			res.send(result);
 		});
@@ -110,7 +106,6 @@ async function run() {
 		app.put('/toys/:id', async (req, res) => {
 			const id = req.params.id;
 			const filter = { _id: new ObjectId(id) };
-			console.log(filter);
 			const options = { upsert: true };
 			const updatedToy = req.body;
 
@@ -126,7 +121,6 @@ async function run() {
 		app.delete('/toys/:id', async (req, res) => {
 			const id = req.params.id;
 			const query = { _id: new ObjectId(id) };
-			console.log(query);
 			const result = await toyCollection.deleteOne(query);
 			res.send(result);
 		});
