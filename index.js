@@ -38,9 +38,11 @@ async function run() {
 			.collection('volleyball');
 
 		app.get('/toys', async (req, res) => {
+			const limit = parseInt(req.query.limit);
 			const result = await toyCollection
 				.find()
 				.sort({ price: -1 })
+				.limit(limit)
 				.toArray();
 			res.send(result);
 		});
