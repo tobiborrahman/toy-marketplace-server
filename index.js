@@ -59,17 +59,13 @@ async function run() {
 
 		app.get('/toys/:text', async (req, res) => {
 			console.log(req.params.text);
-			if (
-				req.params.text == 'football' ||
-				req.params.text == 'cricket' ||
-				req.params.text == 'volleyball'
-			) {
+			if (req.params.text) {
 				const result = await toyCollection
 					.find({ category: req.params.text })
 					.toArray();
 				return res.send(result);
 			}
-			const result = await toyCollection.find().toArray();
+			const result = await toyCollection.find().limit(20).toArray();
 			res.send(result);
 		});
 
