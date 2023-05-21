@@ -61,7 +61,7 @@ async function run() {
 			console.log(req.params.text);
 			if (req.params.text) {
 				const result = await toyCollection
-					.find({ category: req.params.text })
+					.find({ name: req.params.text })
 					.toArray();
 				return res.send(result);
 			}
