@@ -75,6 +75,30 @@ async function run() {
 			res.send(filter);
 		});
 
+		app.get('/cricket/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			const result = await cricketCollection.findOne(query);
+			console.log(result);
+			res.send(result);
+		});
+
+		app.get('/football/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			const result = await footballCollection.findOne(query);
+			console.log(result);
+			res.send(result);
+		});
+
+		app.get('/volleyball/:id', async (req, res) => {
+			const id = req.params.id;
+			const query = { _id: new ObjectId(id) };
+			const result = await volleyballCollection.findOne(query);
+			console.log(result);
+			res.send(result);
+		});
+
 		app.post('/football', async (req, res) => {
 			const newFootball = req.body;
 			const result = await footballCollection.insertOne(newFootball);
@@ -109,12 +133,19 @@ async function run() {
 			const options = { upsert: true };
 			const updatedToy = req.body;
 
-			// const toy = {
-			// 	$set: {
-			// 		name: updatedToy.name,
-			// 	},
-			// };
-			const result = toyCollection.updateOne(filter, options);
+			const toy = {
+				$set: {
+					name: updatedToy.name,
+					quantity: updatedToy.quantity,
+					sellerName: updatedToy.sellerName,
+					category: updatedToy.category,
+					price: updatedToy.price,
+					details: updatedToy.details,
+					picture: updatedToy.picture,
+					rating: updatedToy.rating,
+				},
+			};
+			const result = await toyCollection.updateOne(filter, toy, options);
 			res.send(result);
 		});
 
